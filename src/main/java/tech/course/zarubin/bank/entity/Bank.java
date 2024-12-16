@@ -1,92 +1,51 @@
 package tech.course.zarubin.bank.entity;
 
-import java.util.Random;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.List;
+
+@Entity
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "banks")
+@ToString
 public class Bank {
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
+    @Column(nullable = false)
     private String name;
-    private int totalOffice = 0;    //autoupdate
-    private int totalAtm = 0;       //autoupdate
-    private int totalEmployee = 0;  //autoupdate
-    private int totalClient = 0;    //autoupdate
+
+    @Column(nullable = false)
     private int rating;
-    private long totalMoneySupply;
+
+    @Column(nullable = false)
+    private double totalMoney;
+
+    @Column(nullable = false)
     private double interestRate;
 
-    public Bank(long id, String name) {
-        Random random = new Random();
-        this.id = id;
+    @OneToMany(mappedBy = "bank")
+    private List<BankOffice> offices;
+
+    @OneToMany(mappedBy = "bank")
+    private List<BankAtm> atms;
+
+    @OneToMany(mappedBy = "bank")
+    private List<Employee> employees;
+
+    @OneToMany(mappedBy = "bank")
+    private List<CreditAccount> creditAccounts;
+
+    @OneToMany(mappedBy = "bank")
+    private List<PaymentAccount> paymentAccounts;
+
+    public Bank(String name) {
         this.name = name;
-        this.rating = random.nextInt(101);
-        this.totalMoneySupply = random.nextInt(10_000, 1_000_001);
-        this.interestRate = 731. / rating + random.nextDouble(3.);
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getTotalOffice() {
-        return totalOffice;
-    }
-
-    public void setTotalOffice(int totalOffice) {
-        this.totalOffice = totalOffice;
-    }
-
-    public int getTotalAtm() {
-        return totalAtm;
-    }
-
-    public void setTotalAtm(int totalAtm) {
-        this.totalAtm = totalAtm;
-    }
-
-    public int getTotalEmployee() {
-        return totalEmployee;
-    }
-
-    public void setTotalEmployee(int totalEmployee) {
-        this.totalEmployee = totalEmployee;
-    }
-
-    public int getTotalClient() {
-        return totalClient;
-    }
-
-    public void setTotalClient(int totalClient) {
-        this.totalClient = totalClient;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public long getTotalMoneySupply() {
-        return totalMoneySupply;
-    }
-
-    public void setTotalMoneySupply(long totalMoneySupply) {
-        this.totalMoneySupply = totalMoneySupply;
-    }
-
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
     }
 }

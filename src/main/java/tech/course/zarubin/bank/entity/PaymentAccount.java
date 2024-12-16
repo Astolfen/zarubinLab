@@ -1,40 +1,34 @@
 package tech.course.zarubin.bank.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@ToString
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "payment_accounts")
 public class PaymentAccount {
-    private final long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
+    @ManyToOne
     private User user;
+
+    @ManyToOne
     private Bank bank;
-    private long balance = 0;
 
-    public PaymentAccount(long id) {
-        this.id = id;
-    }
+    @Column(nullable = false)
+    private double balance;
 
-    public long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public PaymentAccount(User user, Bank bank) {
         this.user = user;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
         this.bank = bank;
-    }
-
-    public long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(long balance) {
-        this.balance = balance;
+        this.balance = 0;
     }
 }

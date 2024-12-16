@@ -1,89 +1,57 @@
 package tech.course.zarubin.bank.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Builder
+@ToString
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
-    private final long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Column(nullable = false)
     private String job;
-    private long monthlyIncome;
-    private List<Bank> banks = new ArrayList<>();
-    private List<CreditAccount> creditAccounts = new ArrayList<>();
-    private List<PaymentAccount> paymentAccounts = new ArrayList<>();
+
+    @Column(nullable = false)
+    private double monthlyIncome;
+
+    @Column(nullable = false)
     private int creditRating;
 
-    public User(long id) {
-        this.id = id;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "user_banks",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "bank_id")
+    )
+    private List<Bank> banks;
 
-    public long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<CreditAccount> creditAccounts;
 
-    public String getFullName() {
-        return fullName;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<PaymentAccount> paymentAccounts;
 
-    public void setFullName(String fullName) {
+    public User(String fullName, LocalDate birthDate, String job) {
         this.fullName = fullName;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
         this.job = job;
-    }
-
-    public long getMonthlyIncome() {
-        return monthlyIncome;
-    }
-
-    public void setMonthlyIncome(long monthlyIncome) {
-        this.monthlyIncome = monthlyIncome;
-    }
-
-    public List<Bank> getBanks() {
-        return banks;
-    }
-
-    public void setBanks(List<Bank> banks) {
-        this.banks = banks;
-    }
-
-    public List<CreditAccount> getCreditAccounts() {
-        return creditAccounts;
-    }
-
-    public void setCreditAccounts(List<CreditAccount> creditAccounts) {
-        this.creditAccounts = creditAccounts;
-    }
-
-    public List<PaymentAccount> getPaymentAccounts() {
-        return paymentAccounts;
-    }
-
-    public void setPaymentAccounts(List<PaymentAccount> paymentAccounts) {
-        this.paymentAccounts = paymentAccounts;
-    }
-
-    public int getCreditRating() {
-        return creditRating;
-    }
-
-    public void setCreditRating(int creditRating) {
-        this.creditRating = creditRating;
     }
 }

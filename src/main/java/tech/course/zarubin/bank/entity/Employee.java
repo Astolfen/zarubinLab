@@ -1,87 +1,60 @@
 package tech.course.zarubin.bank.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
+import java.util.List;
 
+@Entity
+@ToString
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "employees")
 public class Employee {
-    private final long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Column(nullable = false)
     private String position;
+
+    @ManyToOne
     private Bank bank;
+
+    @Column(nullable = false)
     private boolean remoteWork;
+
+    @ManyToOne
     private BankOffice bankOffice;
+
+    @Column(nullable = false)
     private boolean canIssueLoans;
-    private long salary;
 
-    public Employee(long id) {
-        this.id = id;
-    }
+    @Column(nullable = false)
+    private double salary;
 
-    public long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "employee")
+    private List<BankAtm> bankAtm;
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
+    public Employee(String fullName, LocalDate birthDate, String position, Bank bank, boolean remoteWork, BankOffice bankOffice, boolean canIssueLoans, double salary) {
         this.fullName = fullName;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
         this.position = position;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
         this.bank = bank;
-    }
-
-    public boolean isRemoteWork() {
-        return remoteWork;
-    }
-
-    public void setRemoteWork(boolean remoteWork) {
         this.remoteWork = remoteWork;
-    }
-
-    public BankOffice getBankOffice() {
-        return bankOffice;
-    }
-
-    public void setBankOffice(BankOffice bankOffice) {
         this.bankOffice = bankOffice;
-    }
-
-    public boolean isCanIssueLoans() {
-        return canIssueLoans;
-    }
-
-    public void setCanIssueLoans(boolean canIssueLoans) {
         this.canIssueLoans = canIssueLoans;
-    }
-
-    public long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(long salary) {
         this.salary = salary;
     }
 }
