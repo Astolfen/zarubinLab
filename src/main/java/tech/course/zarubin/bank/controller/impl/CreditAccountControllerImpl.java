@@ -24,6 +24,11 @@ public class CreditAccountControllerImpl implements CreditAccountController {
     }
 
     @Override
+    public ResponseEntity<CreditAccountDto> createCreditAccount() {
+        return null;
+    }
+
+    @Override
     @DeleteMapping
     public ResponseEntity<Void> deleteCreditAccount(int id) {
         creditAccountService.deleteCreditAccount(id);

@@ -11,6 +11,7 @@ import java.util.List;
 public interface CreditAccountController {
 
     ResponseEntity<CreditAccountDto> createCreditAccount(@RequestBody CreditAccountDto creditAccountDto);
+    ResponseEntity<CreditAccountDto> createCreditAccount();
 
     ResponseEntity<Void> deleteCreditAccount(@PathVariable int id);
 
